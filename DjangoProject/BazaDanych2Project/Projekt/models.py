@@ -7,11 +7,20 @@ class Books(models.Model):
     author = models.CharField(max_length=250)   # autor
     publishing_house = models.CharField(max_length=250) # wydawnictwo
     genre = models.CharField(max_length=250)    # gatunek
+    cover = models.CharField(max_length=250, null=True, blank=True)
+
+    def __str__(self):
+        return self.title + ' - ' + self.author
 
 
 class Assortment(models.Model):
     amount = models.IntegerField()  # ilosc na magazynie
     ISBN_CODE = models.ForeignKey(Books, on_delete=models.CASCADE)
+    price = models.FloatField(default=0)
+
+    def __str__(self):
+        return self.ISBN_CODE.title + ' - ' + self.ISBN_CODE.author + \
+               ', amount: ' + str(self.amount) + ', pice: ' + str(self.price)
 
 
 class Customer(models.Model):
@@ -21,9 +30,16 @@ class Customer(models.Model):
     tel_number = models.CharField(max_length=250)   # numer kontatkowy
     loyalty_card = models.BooleanField(default=True)    # karta lojalnosciowa
 
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name + ', email: ' + self.email + '; is loyal? ' + \
+               str(self.loyalty_card)
+
 
 class JobTitle(models.Model):
     job_title = models.CharField(max_length=250)    # nazwa stanowiska
+
+    def __str__(self):
+        return self.job_title
 
 
 class Worker(models.Model):
@@ -34,17 +50,28 @@ class Worker(models.Model):
     salary = models.IntegerField()
     job_title = models.ForeignKey(JobTitle, on_delete=models.DO_NOTHING)
 
+    def __str__(self):
+        return self.first_name + ' ' + self.last_name + ', ' + self.job_title.job_title
+
 
 class Cart(models.Model):   # przechowuje aktualne przedmioty w koszyku
     assortment = models.ForeignKey(Assortment, on_delete=models.CASCADE)    # wybrany asortyment
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)    # klient
     amount = models.IntegerField()  # ilosc zakupionych przedmiotow
 
+    def __str__(self):
+        return self.customer.first_name + ' ' + self.customer.last_name + ' bought: ' + self.assortment.ISBN_CODE.title +\
+               ' in amount of: ' + str(self.amount)
+
 
 class CompletedCart(models.Model):  # przechowuje zrealizowane karty
     assortment = models.ForeignKey(Assortment, on_delete=models.CASCADE)  # wybrany asortyment
     customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # klient
     amount = models.IntegerField()  # ilosc zakupionych przedmiotow
+
+    def __str__(self):
+        return self.customer.first_name + ' ' + self.customer.last_name + ' bought: ' + self.assortment.ISBN_CODE.title +\
+               ' in amount of: ' + str(self.amount)
 
 
 class Order(models.Model):
@@ -53,5 +80,9 @@ class Order(models.Model):
     was_paid = models.BooleanField(default=True)    # czy zamowienie zostalo juz oplacone
     cash_on_delivery = models.BooleanField(default=True)    # czy platnosc za pobraniem
     was_ordered = models.BooleanField(default=True)  # czy zostalo zrealizowane
-    total_amount = models.IntegerField()
+    total_amount = models.FloatField()
+
+    def __str__(self):
+        return self.completed_order.customer.first_name + ' ' + self.completed_order.customer.last_name + ' amount: ' + self.completed_order.assortment.ISBN_CODE.title +\
+               ' in amount of: ' + str(self.completed_order.amount) + ', price: ' + str(self.total_amount)
 
