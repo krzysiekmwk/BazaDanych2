@@ -2,7 +2,12 @@ from django.db import models
 
 
 class Books(models.Model):
-    ISBN = models.IntegerField()
+
+    class Meta:
+        verbose_name = "Book"
+        verbose_name_plural = "Books"
+
+    ISBN = models.IntegerField(unique=True)
     title = models.CharField(max_length=250)   # tytul
     author = models.CharField(max_length=250)   # autor
     publishing_house = models.CharField(max_length=250) # wydawnictwo

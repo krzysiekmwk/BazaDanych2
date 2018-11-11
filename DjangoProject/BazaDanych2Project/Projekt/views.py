@@ -1,23 +1,18 @@
-from django.shortcuts import render, get_object_or_404
-from django.http import HttpResponse
-from django.shortcuts import redirect
+from django.shortcuts import render
 
-from django.template import loader
-from Projekt.models import Books, Assortment, Cart, Customer
-from django.http import HttpResponse, HttpResponseNotFound, Http404,  HttpResponseRedirect
+from .models import Assortment, Cart, Customer
+from django.http import HttpResponseRedirect
 
 
 def index(request):
-    #all_books = Books.objects.all()
     all_books = Assortment.objects.all()
-    #template = loader.get_template('Projekt/index.html')
     context = {
-        'all_books' : all_books,
+        'all_books': all_books,
     }
     return render(request, 'Projekt/index.html', context)
 
 
-def addToCart(request):
+def add_to_cart(request):
     print("ELL")
     assortment_id = request.POST.get("ID")
     assortment = Assortment.objects.get(id=assortment_id)
@@ -27,7 +22,7 @@ def addToCart(request):
         actual_cart = Cart.objects.get(assortment=assortment, customer=customer)
         actual_cart.amount = actual_cart.amount + 1
         actual_cart.save()
-    except Cart.DoesNotExist:
+    except Cart.does_not_exist:
         cart = Cart()
         cart.assortment = assortment
         cart.customer = customer

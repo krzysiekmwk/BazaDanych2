@@ -1,4 +1,4 @@
-{% load staticfiles %}
+{% load static %}
 <link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_main_page.css' %}"/>
 
 {% for assortment in all_books %}
@@ -8,15 +8,13 @@
             <a id="ID{{ assortment.id }}"></a>
             <h1> Tytuł: {{ assortment.book.title }} </h1>
             <div class="row">
-                <div class="columnIMG">
-                    <img src=" {{ assortment.book.cover }}" width="100%" >
-                </div>
+                <img src=" {{ assortment.book.cover }}" width="100%" alt="image">
                 <div class="columnTEXT">
-                    Autor: {{ assortment.book.author }} </br>
-                    Wydawnictwo: {{ assortment.book.publishing_house }} </br>
-                    Gatunek: {{ assortment.book.genre }} </br>
-                    Cena: {{ assortment.price }} </br>
-                    Stan na magazynie: {{ assortment.amount }} </br>
+                    Autor: {{ assortment.book.author }} <br>
+                    Wydawnictwo: {{ assortment.book.publishing_house }} <br>
+                    Gatunek: {{ assortment.book.genre }} <br>
+                    Cena: {{ assortment.price }} <br>
+                    Stan na magazynie: {{ assortment.amount }} <br>
                 </div>
             </div>
             <button type="submit" name="ID" value="{{ assortment.id }}">Dodaj do koszyka</button>
