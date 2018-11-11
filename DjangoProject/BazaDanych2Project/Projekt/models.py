@@ -15,7 +15,7 @@ class Books(models.Model):
 
 class Assortment(models.Model):
     amount = models.IntegerField()  # ilosc na magazynie
-    ISBN_CODE = models.ForeignKey(Books, on_delete=models.CASCADE)
+    book = models.ForeignKey(Books, on_delete=models.CASCADE)
     price = models.FloatField(default=0)
 
     def __str__(self):

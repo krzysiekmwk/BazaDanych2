@@ -1,0 +1,21 @@
+.book{
+    align: center;
+    margin-bottom: 5%;
+    margin-left: 10%;
+}
+.columnIMG {
+    float: left;
+    width: 15%;
+}
+
+.columnTEXT {
+    float: left;
+}
+
+
+/* Clear floats after the columns */
+.row:after {
+    content: "";
+    display: table;
+    clear: both;
+}
