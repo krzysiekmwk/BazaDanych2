@@ -19,7 +19,7 @@ class Assortment(models.Model):
     price = models.FloatField(default=0)
 
     def __str__(self):
-        return self.ISBN_CODE.title + ' - ' + self.ISBN_CODE.author + \
+        return self.book.title + ' - ' + self.book.author + \
                ', amount: ' + str(self.amount) + ', pice: ' + str(self.price)
 
 
@@ -60,7 +60,7 @@ class Cart(models.Model):   # przechowuje aktualne przedmioty w koszyku
     amount = models.IntegerField()  # ilosc zakupionych przedmiotow
 
     def __str__(self):
-        return self.customer.first_name + ' ' + self.customer.last_name + ' bought: ' + self.assortment.ISBN_CODE.title +\
+        return self.customer.first_name + ' ' + self.customer.last_name + ' bought: ' + self.assortment.book.title +\
                ' in amount of: ' + str(self.amount)
 
 
@@ -70,7 +70,7 @@ class CompletedCart(models.Model):  # przechowuje zrealizowane karty
     amount = models.IntegerField()  # ilosc zakupionych przedmiotow
 
     def __str__(self):
-        return self.customer.first_name + ' ' + self.customer.last_name + ' bought: ' + self.assortment.ISBN_CODE.title +\
+        return self.customer.first_name + ' ' + self.customer.last_name + ' bought: ' + self.assortment.book.title +\
                ' in amount of: ' + str(self.amount)
 
 
@@ -83,6 +83,6 @@ class Order(models.Model):
     total_amount = models.FloatField()
 
     def __str__(self):
-        return self.completed_order.customer.first_name + ' ' + self.completed_order.customer.last_name + ' amount: ' + self.completed_order.assortment.ISBN_CODE.title +\
+        return self.completed_order.customer.first_name + ' ' + self.completed_order.customer.last_name + ' amount: ' + self.completed_order.assortment.book.title +\
                ' in amount of: ' + str(self.completed_order.amount) + ', price: ' + str(self.total_amount)
 
