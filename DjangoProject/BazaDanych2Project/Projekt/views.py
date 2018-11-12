@@ -22,13 +22,13 @@ def add_to_cart(request):
         actual_cart = Cart.objects.get(assortment=assortment, customer=customer)
         actual_cart.amount = actual_cart.amount + 1
         actual_cart.save()
-    except Cart.does_not_exist:
+    except Cart.DoesNotExist:
         cart = Cart()
         cart.assortment = assortment
         cart.customer = customer
         cart.amount = 1
         cart.save()
 
-    return HttpResponseRedirect("/Projekt/#ID" + assortment_id)
+    return HttpResponseRedirect("/#ID" + assortment_id)
 
 

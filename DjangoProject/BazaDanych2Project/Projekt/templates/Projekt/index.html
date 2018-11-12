@@ -2,7 +2,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_main_page.css' %}"/>
 
 {% for assortment in all_books %}
-    <form action="addToCart/" method="post">
+    <form action="add_to_cart/" method="post">
         {% csrf_token %}
         <div class="book">
             <a id="ID{{ assortment.id }}"></a>
