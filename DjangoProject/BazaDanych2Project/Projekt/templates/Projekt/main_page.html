@@ -1,0 +1,26 @@
+{% extends 'Projekt/index.html' %}
+
+{% block title %}Main_page{% endblock %}
+
+{% block content %}
+    {% for assortment in all_books %}
+        <form action="add_to_cart/" method="post">
+            {% csrf_token %}
+            <div class="book">
+                <a id="ID{{ assortment.id }}"></a>
+                <h1> Tytuł: {{ assortment.book.title }} </h1>
+                <div class="row">
+                    <img src=" {{ assortment.book.cover }}" width="10%" alt="image">
+                    <div class="columnTEXT">
+                        Autor: {{ assortment.book.author }} <br>
+                        Wydawnictwo: {{ assortment.book.publishing_house }} <br>
+                        Gatunek: {{ assortment.book.genre }} <br>
+                        Cena: {{ assortment.price }} <br>
+                        Stan na magazynie: {{ assortment.amount }} <br>
+                    </div>
+                </div>
+                <button type="submit" name="ID" value="{{ assortment.id }}">Dodaj do koszyka</button>
+            </div>
+        </form>
+    {% endfor %}
+{% endblock %}

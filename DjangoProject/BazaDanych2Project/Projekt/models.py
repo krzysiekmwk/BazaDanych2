@@ -4,7 +4,6 @@ from django.db import models
 # TODO
 # AGREGACJA
 # ZMIANA PANELU ADMINA
-# BAZA DANYCH OSOBNO ORACLE
 # UZUPELNIONA DOKUMENTACJA
 
 class Books(models.Model):

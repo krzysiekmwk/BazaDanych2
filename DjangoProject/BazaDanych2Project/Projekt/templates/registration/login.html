@@ -1,0 +1,18 @@
+{% extends 'Projekt/index.html' %}
+
+{% block title %}Login{% endblock %}
+
+{% block content %}
+  <div class="wrapper">
+    <div class="form-bubble">
+      <div class="form-text">
+        <h2>Login</h2>
+        <form method="post">
+          {% csrf_token %}
+          {{ form.as_p }}
+          <button type="submit">Login</button>
+        </form>
+      </div>
+    </div>
+  </div>
+{% endblock %}

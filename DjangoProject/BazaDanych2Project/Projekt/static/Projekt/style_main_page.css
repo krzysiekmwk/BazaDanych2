@@ -1,7 +1,8 @@
 .book{
-    align: center;
     margin-bottom: 5%;
     margin-left: 10%;
+    color: ghostwhite;
+    font-family: Roboto, sans-serif;
 }
 
 .row img {
@@ -12,6 +13,8 @@
 
 .columnTEXT {
     text-align: left;
+    padding-top: 7%;
+    margin-left: 5px;
 }
 
 /* Clear floats after the columns */

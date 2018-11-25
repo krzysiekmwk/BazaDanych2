@@ -1,24 +1,28 @@
 {% load static %}
+<link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_index.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_main_page.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_signup.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_login.css' %}"/>
 
-{% for assortment in all_books %}
-    <form action="add_to_cart/" method="post">
-        {% csrf_token %}
-        <div class="book">
-            <a id="ID{{ assortment.id }}"></a>
-            <h1> Tytuł: {{ assortment.book.title }} </h1>
-            <div class="row">
-                <img src=" {{ assortment.book.cover }}" width="100%" alt="image">
-                <div class="columnTEXT">
-                    Autor: {{ assortment.book.author }} <br>
-                    Wydawnictwo: {{ assortment.book.publishing_house }} <br>
-                    Gatunek: {{ assortment.book.genre }} <br>
-                    Cena: {{ assortment.price }} <br>
-                    Stan na magazynie: {{ assortment.amount }} <br>
-                </div>
-            </div>
-            <button type="submit" name="ID" value="{{ assortment.id }}">Dodaj do koszyka</button>
-        </div>
-    </form>
-
-{% endfor %}
+<html>
+    <head>
+        <title>Bookstore</title>
+    </head>
+    <nav class="navbar">
+        <ul>
+            <li><a href="{% url 'home' %}"> Home</a></li>
+            <li><a href="{% url 'signup' %}"> Signup</a></li>
+            <li><a href="{% url 'login' %}?next=/home/"> Login</a></li>
+            <li><a href="{% url 'logout' %}?next=/home/"> Logout</a></li>
+            <li>
+                {% if user.is_authenticated %}
+                <p>Miło cię widzieć: {{ user.username }} !</p>
+                {% endif %}
+            </li>
+        </ul>
+    </nav>
+    <body>
+    {% block content %}
+    {% endblock %}
+    </body>
+</html>
