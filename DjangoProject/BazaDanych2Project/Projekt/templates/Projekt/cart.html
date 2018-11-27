@@ -1,0 +1,37 @@
+{% extends 'Projekt/index.html' %}
+
+{% block title %}Main_page{% endblock %}
+
+{% block content %}
+    {% if not all_books_in_user_cart %}
+        Nothing to see... </br>
+        Please back to <a href="{% url 'home' %}"> HomePage</a> and then add something to cart.
+    {% else %}
+    {% for cart in all_books_in_user_cart %}
+        <form action="edit_order/" method="post">
+            {% csrf_token %}
+            <div class="book">
+                <a id="ID{{ cart.id }}"></a>
+                <h1> Tytuł: {{ cart.assortment.book.title }} </h1>
+                <div class="row">
+                    <img src=" {{ cart.assortment.book.cover }}" width="10%" alt="image">
+                    <div class="columnTEXT">
+                        Autor: {{ cart.assortment.book.author }} <br>
+                        Wydawnictwo: {{ cart.assortment.book.publishing_house }} <br>
+                        Gatunek: {{ cart.assortment.book.genre }} <br>
+                        Cena: {{ cart.total_price }} <br>
+                        W koszyku: {{ cart.amount }} <br>
+                    </div>
+                </div>
+                <button type="submit" name="ID_DELETE" value="{{ cart.id }}">Usuń z koszyka</button>
+                <button type="submit" name="ID_ONE_MORE" value="{{ cart.id }}">Zwiększ ilość</button>
+                <button type="submit" name="ID_ONE_LESS" value="{{ cart.id }}">Zmniejsz ilość</button>
+            </div>
+        </form>
+    {% endfor %}
+    {% endif %}
+
+    <a href="{% url 'confirm_order' %}"> Potwierdź zamówienie</a>
+
+
+{% endblock %}

@@ -66,21 +66,23 @@ class Worker(models.Model):
 
 class Cart(models.Model):   # przechowuje aktualne przedmioty w koszyku
     assortment = models.ForeignKey(Assortment, on_delete=models.CASCADE)    # wybrany asortyment
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)    # klient
+    customer = models.CharField(max_length=250)
     amount = models.IntegerField()  # ilosc zakupionych przedmiotow
+    total_price = models.FloatField(default=0)
 
     def __str__(self):
-        return self.customer.first_name + ' ' + self.customer.last_name + ' bought: ' + self.assortment.book.title +\
+        return self.customer + ' have in cart: ' + self.assortment.book.title +\
                ' in amount of: ' + str(self.amount)
 
 
 class CompletedCart(models.Model):  # przechowuje zrealizowane karty
-    assortment = models.ForeignKey(Assortment, on_delete=models.CASCADE)  # wybrany asortyment
-    customer = models.ForeignKey(Customer, on_delete=models.CASCADE)  # klient
+    assortment = models.ForeignKey(Assortment, on_delete=models.CASCADE)    # wybrany asortyment
+    customer = models.CharField(max_length=250)
     amount = models.IntegerField()  # ilosc zakupionych przedmiotow
+    total_price = models.FloatField(default=0)
 
     def __str__(self):
-        return self.customer.first_name + ' ' + self.customer.last_name + ' bought: ' + self.assortment.book.title +\
+        return self.customer + ' bought: ' + self.assortment.book.title +\
                ' in amount of: ' + str(self.amount)
 
 
@@ -93,6 +95,6 @@ class Order(models.Model):
     total_amount = models.FloatField()
 
     def __str__(self):
-        return self.completed_order.customer.first_name + ' ' + self.completed_order.customer.last_name + ' amount: ' + self.completed_order.assortment.book.title +\
+        return self.completed_order.customer + ' amount: ' + self.completed_order.assortment.book.title +\
                ' in amount of: ' + str(self.completed_order.amount) + ', price: ' + str(self.total_amount)
 

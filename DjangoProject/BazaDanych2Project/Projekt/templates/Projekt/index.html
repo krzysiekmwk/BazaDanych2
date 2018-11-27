@@ -14,6 +14,7 @@
             <li><a href="{% url 'signup' %}"> Signup</a></li>
             <li><a href="{% url 'login' %}?next=/home/"> Login</a></li>
             <li><a href="{% url 'logout' %}?next=/home/"> Logout</a></li>
+            <li><a href="{% url 'cart' %}"> Cart</a></li>
             <li>
                 {% if user.is_authenticated %}
                 <p>Miło cię widzieć: {{ user.username }} !</p>

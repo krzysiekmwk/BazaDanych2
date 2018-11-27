@@ -19,7 +19,9 @@
                         Stan na magazynie: {{ assortment.amount }} <br>
                     </div>
                 </div>
+                {% if user.is_authenticated %}
                 <button type="submit" name="ID" value="{{ assortment.id }}">Dodaj do koszyka</button>
+                {% endif %}
             </div>
         </form>
     {% endfor %}
