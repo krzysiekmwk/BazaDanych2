@@ -18,12 +18,14 @@
             <li><a href="{% url 'login' %}?next=/home/"> Login</a></li>
             <li><a href="{% url 'logout' %}?next=/home/"> Logout</a></li>
             <li><a href="{% url 'cart' %}"> Cart</a></li>
+            <li>
             {% if user.groups.all.0.name == "employee" %}
-                <li><a href="{% url 'salesman' %}"> Karta Sprzedawcy </a></li>
+                <a href="{% url 'salesman' %}"> Salesman card </a>
             {% endif %}
+            </li>
             <li>
                 {% if user.is_authenticated %}
-                <p>Miło cię widzieć: {{ user.username }} !</p>
+                <p>It's nice to see you: {{ user.username }} !</p>
                 {% endif %}
             </li>
         </ul>

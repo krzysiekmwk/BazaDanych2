@@ -1,0 +1,20 @@
+.cart_text {
+    color: ghostwhite;
+    margin-left: 20px;
+}
+
+.cart_text a {
+    text-decoration: none;
+    color: black;
+}
+
+.messages {
+    margin-top: 0;
+    list-style-type: none;
+}
+
+.messages li {
+    color: red;
+    font-size: 40px;
+    font-weight: 900;
+}

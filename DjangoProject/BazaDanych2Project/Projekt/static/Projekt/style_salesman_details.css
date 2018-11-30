@@ -1,3 +1,7 @@
-div {
+.salesman-details {
+    margin-left: 20px;
+}
+
+.salesman-details-text {
     color: ghostwhite;
 }

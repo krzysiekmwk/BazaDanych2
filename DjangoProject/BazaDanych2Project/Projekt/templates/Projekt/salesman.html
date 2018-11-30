@@ -6,7 +6,9 @@
 
     {% for order in all_orders %}
     <div class="salesman">
-            <a href="{{ order.the_same_id }}">{{order.customer}} the order id is: {{order.the_same_id}}</a>
+        <p>
+            User {{ order.customer }} the order is: <a href="{{ order.the_same_id }}">{{order.the_same_id}}</a>
+        </p>
     </div>
     {% endfor %}
 

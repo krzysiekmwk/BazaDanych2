@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login, authenticate
+from django.contrib.auth.models import Group
 from django.http import HttpResponseRedirect
+from django.contrib import messages
 
 from .models import Assortment, Cart, CompletedCart
 from .forms import SignUpForm
-from django.contrib.auth.models import Group
 
 
 def index(request):
@@ -36,6 +37,7 @@ def salesman_details(request, id=0):
     else:
         return HttpResponseRedirect("/home/#ID" + str(1))
 
+
 def salesman(request):
     user = getattr(request, 'user', None)
     if user.groups.filter(name='employee').exists():
@@ -49,17 +51,12 @@ def salesman(request):
                 list_with_the_same_ids.append(order.the_same_id)
                 filtered_orders.append(order)
 
-
-
-
         context = {
             'all_orders': filtered_orders,
         }
         return render(request, 'Projekt/salesman.html', context)
     else:
         return HttpResponseRedirect("/home/#ID" + str(1))
-
-
 
 
 def signup(request):
@@ -78,6 +75,7 @@ def signup(request):
         form = SignUpForm()
     return render(request, 'Projekt/signup.html', {'form': form})
 
+
 def cart(request):
     customer = getattr(request, 'user', None)
     all_books_in_user_cart = Cart.objects.all().filter(customer=customer.username)
@@ -90,6 +88,7 @@ def cart(request):
         'total_price': round(total_price, 2),
     }
     return render(request, 'Projekt/cart.html', context)
+
 
 def confirm_order(request):
     print("confirm")
@@ -105,7 +104,7 @@ def confirm_order(request):
         completed_cart.customer = item.customer
         completed_cart.the_same_id = the_same_id
         completed_cart.save()
-        if (the_same_id == 0):
+        if the_same_id == 0:
             the_same_id = completed_cart.id
 
         completed_cart.the_same_id = the_same_id
@@ -119,32 +118,38 @@ def confirm_order(request):
 
     return HttpResponseRedirect("/home/#ID" + str(1))
 
+
 def edit_order(request):
     print("EDIT")
     index = 1
-    if (request.POST.get("ID_DELETE")):
+    if request.POST.get("ID_DELETE"):
         id = request.POST.get("ID_DELETE")
         index = id
         cart = Cart.objects.get(id=id)
         cart.delete()
-    elif(request.POST.get("ID_ONE_MORE")):
+    elif request.POST.get("ID_ONE_MORE"):
         id = request.POST.get("ID_ONE_MORE")
         index = id
         cart = Cart.objects.get(id=id)
-        cart.amount += 1
-        cart.total_price = cart.amount * cart.assortment.price
-        cart.save()
-    elif(request.POST.get("ID_ONE_LESS")):
+        assortment = Assortment.objects.get(id=cart.assortment.id)
+        if cart.amount == assortment.amount:
+            messages.info(request, 'There are no more books of such kind in the bookstore')
+        else:
+            cart.amount += 1
+            cart.total_price = cart.amount * cart.assortment.price
+            cart.save()
+    elif request.POST.get("ID_ONE_LESS"):
         id = request.POST.get("ID_ONE_LESS")
         index = id
         cart = Cart.objects.get(id=id)
-        if(not cart.amount <= 1):
+        if not cart.amount <= 1:
             cart.amount -= 1
             cart.total_price = cart.amount * cart.assortment.price
             cart.save()
 
     #return cart(request)
     return HttpResponseRedirect("/home/cart/#ID" + str(index))
+
 
 def add_to_cart(request):
     print("ELL")

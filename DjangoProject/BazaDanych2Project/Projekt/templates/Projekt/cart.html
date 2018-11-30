@@ -4,9 +4,18 @@
 
 {% block content %}
     {% if not all_books_in_user_cart %}
+    <p class="cart_text">
         Nothing to see... </br>
         Please back to <a href="{% url 'home' %}"> HomePage</a> and then add something to cart.
+    </p>
     {% else %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     {% for cart in all_books_in_user_cart %}
         <form action="edit_order/" method="post">
             {% csrf_token %}
@@ -29,11 +38,9 @@
             </div>
         </form>
     {% endfor %}
-    Laczna suma za zamowienia: {{ total_price }}
-    <a href="{% url 'confirm_order' %}"> Potwierdź zamówienie</a>
+    <p class="cart_text">
+        Laczna suma za zamowienia: {{ total_price }}
+        <a href="{% url 'confirm_order' %}"> Potwierdź zamówienie</a>
+    </p>
     {% endif %}
-
-
-
-
 {% endblock %}

@@ -1,15 +1,16 @@
+.salesman {
+    margin-left: 20px;
+}
+
+.salesman p {
+    color: ghostwhite;
+}
+
 .salesman a {
-    color: ghostwhite;
+    color: black;
+    text-decoration: none;
 }
 
-.salesman a:focus {
-    color: ghostwhite;
-}
-
-.salesman a:hover {
-    color: ghostwhite;
-}
-
-.salesman a: {
-    color: ghostwhite;
-}
+/*.salesman a: {*/
+    /*color: ghostwhite;*/
+/*}*/
