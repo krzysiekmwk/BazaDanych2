@@ -80,6 +80,7 @@ class CompletedCart(models.Model):  # przechowuje zrealizowane karty
     customer = models.CharField(max_length=250)
     amount = models.IntegerField()  # ilosc zakupionych przedmiotow
     total_price = models.FloatField(default=0)
+    the_same_id = models.IntegerField(default=0)
 
     def __str__(self):
         return self.customer + ' bought: ' + self.assortment.book.title +\

@@ -1,0 +1,13 @@
+{% extends 'Projekt/index.html' %}
+
+{% block title %}Salesman{% endblock %}
+
+{% block content %}
+
+    {% for order in all_orders %}
+    <div class="salesman">
+            <a href="{{ order.the_same_id }}">{{order.customer}} the order id is: {{order.the_same_id}}</a>
+    </div>
+    {% endfor %}
+
+{% endblock %}

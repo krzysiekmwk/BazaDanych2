@@ -4,6 +4,7 @@ from django.http import HttpResponseRedirect
 
 from .models import Assortment, Cart, CompletedCart
 from .forms import SignUpForm
+from django.contrib.auth.models import Group
 
 
 def index(request):
@@ -14,6 +15,53 @@ def index(request):
     return render(request, 'Projekt/main_page.html', context)
 
 
+def salesman_details(request, id=0):
+    user = getattr(request, 'user', None)
+    if user.groups.filter(name='employee').exists():
+        print("DETAILS")
+        print(request)
+        all_orders = CompletedCart.objects.all().filter(the_same_id=id)
+
+        total_price = 0
+        for order in all_orders:
+            order.total_price = round(order.total_price, 2)
+            total_price += order.total_price
+
+        context = {
+            'all_orders': all_orders,
+            'total_price': round(total_price, 2),
+        }
+
+        return render(request, 'Projekt/salesman_details.html', context)
+    else:
+        return HttpResponseRedirect("/home/#ID" + str(1))
+
+def salesman(request):
+    user = getattr(request, 'user', None)
+    if user.groups.filter(name='employee').exists():
+        all_orders = CompletedCart.objects.all()
+
+        list_with_the_same_ids = []
+        filtered_orders = []
+
+        for order in all_orders:
+            if order.the_same_id not in list_with_the_same_ids:
+                list_with_the_same_ids.append(order.the_same_id)
+                filtered_orders.append(order)
+
+
+
+
+        context = {
+            'all_orders': filtered_orders,
+        }
+        return render(request, 'Projekt/salesman.html', context)
+    else:
+        return HttpResponseRedirect("/home/#ID" + str(1))
+
+
+
+
 def signup(request):
     if request.method == 'POST':
         form = SignUpForm(request.POST)
@@ -22,6 +70,8 @@ def signup(request):
             username = form.cleaned_data.get('username')
             raw_password = form.cleaned_data.get('password1')
             user = authenticate(username=username, password=raw_password)
+            my_group = Group.objects.get(name='user')
+            my_group.user_set.add(user)
             login(request, user)
             return redirect('/home/')
     else:
@@ -31,8 +81,13 @@ def signup(request):
 def cart(request):
     customer = getattr(request, 'user', None)
     all_books_in_user_cart = Cart.objects.all().filter(customer=customer.username)
+    total_price = 0
+    for item in all_books_in_user_cart:
+        item.total_price = round(item.total_price, 2)
+        total_price += item.total_price
     context = {
         'all_books_in_user_cart': all_books_in_user_cart,
+        'total_price': round(total_price, 2),
     }
     return render(request, 'Projekt/cart.html', context)
 
@@ -41,12 +96,19 @@ def confirm_order(request):
     customer = getattr(request, 'user', None)
     all_item_in_cart = Cart.objects.all().filter(customer=customer.username)
 
+    the_same_id = 0
     for item in all_item_in_cart:
         completed_cart = CompletedCart()
         completed_cart.assortment = item.assortment
         completed_cart.amount = item.amount
         completed_cart.total_price = item.total_price
         completed_cart.customer = item.customer
+        completed_cart.the_same_id = the_same_id
+        completed_cart.save()
+        if (the_same_id == 0):
+            the_same_id = completed_cart.id
+
+        completed_cart.the_same_id = the_same_id
         completed_cart.save()
 
         assortment = Assortment.objects.get(id=item.assortment.id)
@@ -81,6 +143,7 @@ def edit_order(request):
             cart.total_price = cart.amount * cart.assortment.price
             cart.save()
 
+    #return cart(request)
     return HttpResponseRedirect("/home/cart/#ID" + str(index))
 
 def add_to_cart(request):

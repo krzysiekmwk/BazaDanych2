@@ -1,6 +1,6 @@
 {% extends 'Projekt/index.html' %}
 
-{% block title %}Main_page{% endblock %}
+{% block title %}Cart{% endblock %}
 
 {% block content %}
     {% if not all_books_in_user_cart %}
@@ -24,14 +24,16 @@
                     </div>
                 </div>
                 <button type="submit" name="ID_DELETE" value="{{ cart.id }}">Usuń z koszyka</button>
-                <button type="submit" name="ID_ONE_MORE" value="{{ cart.id }}">Zwiększ ilość</button>
-                <button type="submit" name="ID_ONE_LESS" value="{{ cart.id }}">Zmniejsz ilość</button>
+                <button type="submit" name="ID_ONE_MORE" value="{{ cart.id }}">+</button>
+                <button type="submit" name="ID_ONE_LESS" value="{{ cart.id }}">-</button>
             </div>
         </form>
     {% endfor %}
+    Laczna suma za zamowienia: {{ total_price }}
+    <a href="{% url 'confirm_order' %}"> Potwierdź zamówienie</a>
     {% endif %}
 
-    <a href="{% url 'confirm_order' %}"> Potwierdź zamówienie</a>
+
 
 
 {% endblock %}

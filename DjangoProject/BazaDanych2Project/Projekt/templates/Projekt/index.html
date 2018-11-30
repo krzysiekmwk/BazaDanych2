@@ -3,6 +3,9 @@
 <link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_main_page.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_signup.css' %}"/>
 <link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_login.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_salesman_details.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_salesman.css' %}"/>
+<link rel="stylesheet" type="text/css" href="{% static 'Projekt/style_cart.css' %}"/>
 
 <html>
     <head>
@@ -15,6 +18,9 @@
             <li><a href="{% url 'login' %}?next=/home/"> Login</a></li>
             <li><a href="{% url 'logout' %}?next=/home/"> Logout</a></li>
             <li><a href="{% url 'cart' %}"> Cart</a></li>
+            {% if user.groups.all.0.name == "employee" %}
+                <li><a href="{% url 'salesman' %}"> Karta Sprzedawcy </a></li>
+            {% endif %}
             <li>
                 {% if user.is_authenticated %}
                 <p>Miło cię widzieć: {{ user.username }} !</p>

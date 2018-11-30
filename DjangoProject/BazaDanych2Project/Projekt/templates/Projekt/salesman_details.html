@@ -1,0 +1,14 @@
+{% extends 'Projekt/index.html' %}
+
+{% block title %}Salesman_detail{% endblock %}
+
+{% block content %}
+    <div>
+        {{ all_orders.0.customer }} bought: </br>
+        {% for order in all_orders %}
+            {{order.assortment.book.title}} in amount of: {{order.amount}} </br>
+        {% endfor %}
+        </br>
+    </div>
+    Laczna suma za zamowienia: {{ total_price }}
+{% endblock %}

@@ -11,4 +11,6 @@ urlpatterns = [
     path('login/', LoginView.as_view(), name='login'),
     path('logout/', LogoutView.as_view(), name='logout'),
     path('cart/', projekt_views.cart, name='cart'),
+    path('salesman/', projekt_views.salesman, name='salesman'),
+    path(r'salesman/<int:id>/', projekt_views.salesman_details, name='salesman_details'),
 ]
