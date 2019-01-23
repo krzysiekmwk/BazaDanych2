@@ -163,7 +163,8 @@ def add_to_cart(request):
             actual_cart.amount = actual_cart.amount + 1
             actual_cart.total_price += assortment.price
             actual_cart.save()
-        messages.error(request, 'There are no more books of such kind in the bookstore')
+        else:
+            messages.error(request, 'There are no more books of such kind in the bookstore')
     except Cart.DoesNotExist:
         cart = Cart()
         cart.assortment = assortment

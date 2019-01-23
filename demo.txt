@@ -1,0 +1,15 @@
+1. Pokazanie jak stronę widzi gość
+2. Stworzenie nowego użytkownika DUPA123 : hasło qwertyuiop123 -> pytanie do ludzi XD
+3. Pokazanie, że karta jest "pusta"
+4. Dodanie do koszyka 3 książek które są oraz 1 której stan na magazynie jest 0
+5. Przejście do koszyka. 
+	a) Zwiększenie / zmniejszenie +- pokazywanie, że cena się zmienia
+	b) Usunięcie jednej książki
+	c) Potwierdzenie zamówienia (trzeba pamiętać co i ile kupiliśmy)
+5a. Wylogowanie się
+6. Dodanie tych samych książek przez użytkownika który ma loyality card (kolejny test)
+7. Zalogowanie się na admina
+8. Pokazanie, że dodało się nowe pole w navbar. Wejście w salesman card
+9. Pokazanie tych i pokazanie 2 ostatnich zamówień - żeby pokazać, że działa 5%
+10. Jeśli starczy czas, to wejście na panel admina, zmiana uprawnień użytkownika, dodanie nowej książi itp
+
