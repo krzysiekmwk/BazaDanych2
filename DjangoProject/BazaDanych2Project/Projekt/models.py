@@ -1,11 +1,6 @@
 from django.db import models
 
 
-# TODO
-# AGREGACJA
-# ZMIANA PANELU ADMINA
-# UZUPELNIONA DOKUMENTACJA
-
 class Books(models.Model):
 
     class Meta:
@@ -30,7 +25,7 @@ class Assortment(models.Model):
 
     def __str__(self):
         return self.book.title + ' - ' + self.book.author + \
-               ', amount: ' + str(self.amount) + ', pice: ' + str(self.price)
+               ', amount: ' + str(self.amount) + ', price: ' + str(self.price)
 
 
 class Customer(models.Model):
@@ -38,7 +33,7 @@ class Customer(models.Model):
     last_name = models.CharField(max_length=250)    # nazwisko
     email = models.CharField(max_length=250)    # adres email
     tel_number = models.CharField(max_length=250)   # numer kontatkowy
-    loyalty_card = models.BooleanField(default=True)    # karta lojalnosciowa
+    loyalty_card = models.BooleanField(default=False)    # karta lojalnosciowa
 
     def __str__(self):
         return self.first_name + ' ' + self.last_name + ', email: ' + self.email + '; is loyal? ' + \

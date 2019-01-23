@@ -19,8 +19,6 @@ def index(request):
 def salesman_details(request, id=0):
     user = getattr(request, 'user', None)
     if user.groups.filter(name='employee').exists():
-        print("DETAILS")
-        print(request)
         all_orders = CompletedCart.objects.all().filter(the_same_id=id)
 
         total_price = 0
@@ -81,8 +79,12 @@ def cart(request):
     all_books_in_user_cart = Cart.objects.all().filter(customer=customer.username)
     total_price = 0
     for item in all_books_in_user_cart:
-        item.total_price = round(item.total_price, 2)
-        total_price += item.total_price
+        if customer.groups.filter(name='rUser').exists():
+            item.total_price = round(item.total_price*0.95, 2)
+            total_price += item.total_price
+        else:
+            item.total_price = round(item.total_price, 2)
+            total_price += item.total_price
     context = {
         'all_books_in_user_cart': all_books_in_user_cart,
         'total_price': round(total_price, 2),
@@ -91,7 +93,6 @@ def cart(request):
 
 
 def confirm_order(request):
-    print("confirm")
     customer = getattr(request, 'user', None)
     all_item_in_cart = Cart.objects.all().filter(customer=customer.username)
 
@@ -100,7 +101,10 @@ def confirm_order(request):
         completed_cart = CompletedCart()
         completed_cart.assortment = item.assortment
         completed_cart.amount = item.amount
-        completed_cart.total_price = item.total_price
+        if customer.groups.filter(name='rUser').exists():
+            completed_cart.total_price = round(item.total_price*0.95, 2)
+        else:
+            completed_cart.total_price = item.total_price
         completed_cart.customer = item.customer
         completed_cart.the_same_id = the_same_id
         completed_cart.save()
@@ -120,7 +124,6 @@ def confirm_order(request):
 
 
 def edit_order(request):
-    print("EDIT")
     index = 1
     if request.POST.get("ID_DELETE"):
         id = request.POST.get("ID_DELETE")
@@ -147,21 +150,20 @@ def edit_order(request):
             cart.total_price = cart.amount * cart.assortment.price
             cart.save()
 
-    #return cart(request)
     return HttpResponseRedirect("/home/cart/#ID" + str(index))
 
 
 def add_to_cart(request):
-    print("ELL")
     assortment_id = request.POST.get("ID")
     assortment = Assortment.objects.get(id=assortment_id)
     customer = getattr(request, 'user', None)
-    print(customer.username)
     try:
-        actual_cart = Cart.objects.get(assortment=assortment, customer=customer.username)
-        actual_cart.amount = actual_cart.amount + 1
-        actual_cart.total_price += assortment.price
-        actual_cart.save()
+        if assortment.amount != 0:
+            actual_cart = Cart.objects.get(assortment=assortment, customer=customer.username)
+            actual_cart.amount = actual_cart.amount + 1
+            actual_cart.total_price += assortment.price
+            actual_cart.save()
+        messages.error(request, 'There are no more books of such kind in the bookstore')
     except Cart.DoesNotExist:
         cart = Cart()
         cart.assortment = assortment

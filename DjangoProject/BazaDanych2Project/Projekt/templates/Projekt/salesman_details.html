@@ -5,11 +5,11 @@
 {% block content %}
     <div class="salesman-details">
             <p class="salesman-details-text">
-                User {{ all_orders.0.customer }} bought: </br>
+                User {{ all_orders.0.customer }} bought: </br> </br>
                 {% for order in all_orders %}
                 {{order.assortment.book.title}} in amount of: {{order.amount}} </br>
-            </p>
             {% endfor %}
+            </p>
             </br>
         <p class="salesman-details-text">
             Laczna suma zamowienia wynosi: {{ total_price }}

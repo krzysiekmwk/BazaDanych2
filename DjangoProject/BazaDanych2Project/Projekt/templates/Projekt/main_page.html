@@ -3,6 +3,13 @@
 {% block title %}Main_page{% endblock %}
 
 {% block content %}
+    {% if messages %}
+        <ul class="messages">
+            {% for message in messages %}
+            <li>{{ message }}</li>
+            {% endfor %}
+        </ul>
+    {% endif %}
     {% for assortment in all_books %}
         <form action="add_to_cart/" method="post">
             {% csrf_token %}
